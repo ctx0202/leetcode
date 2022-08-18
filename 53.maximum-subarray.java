@@ -23,32 +23,30 @@ class Solution {
         return divideAndConquer(0, nums.length -1, nums);
     }
 
-    private int divideAndConquer(int left, int right, int[] nums){
-        if(left > right) {
+    private int divideAndConquer(int l, int r, int[] nums){
+        if(l > r) {
             return Integer.MIN_VALUE;
         }
+        int leftMax = 0, rightMax = 0;
+        int mid = (l + r)/2;
 
-        int leftMax = 0 ;
-        int rightMax = 0;
         int cur = 0;
-
-        int mid = (left + right) /2;
-        
-        for(int i = mid-1; i>=left; i--){
+        for(int i = mid-1; i >= l; i--){
             cur += nums[i];
             leftMax = Math.max(leftMax, cur);
         }
         cur = 0;
-        for(int i = mid+1; i<=right; i++){
-            cur+=nums[i];
+        for(int i = mid + 1; i <= r; i++){
+            cur += nums[i];
             rightMax = Math.max(rightMax, cur);
         }
 
-        int bestSum = leftMax + rightMax + nums[mid];
-        int leftBestSum = divideAndConquer(left, mid-1, nums);
-        int rightBestSum = divideAndConquer(mid+1, right, nums);
+        int maxSum = leftMax + nums[mid] + rightMax;
 
-        return Math.max(bestSum, Math.max(leftBestSum, rightBestSum));
+        int leftSubMax = divideAndConquer(l, mid-1, nums);
+        int rightSubMax = divideAndConquer(mid+1, r, nums);
+        
+        return Math.max(maxSum, Math.max(leftSubMax, rightSubMax));
     }
 }
 // @lc code=end
